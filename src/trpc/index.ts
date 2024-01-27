@@ -176,20 +176,20 @@ export const appRouter = router({
       return { status: file.uploadStatus }
     }),
 
-  getFile: privateProcedure
+    getFile: privateProcedure
     .input(z.object({ key: z.string() }))
-    .mutation(async ({ ctx, input }) => {
+    .query(async ({ ctx, input }) => { // change this line
       const { userId } = ctx
-
+  
       const file = await db.file.findFirst({
         where: {
           key: input.key,
           userId,
         },
       })
-
+  
       if (!file) throw new TRPCError({ code: 'NOT_FOUND' })
-
+  
       return file
     }),
 
